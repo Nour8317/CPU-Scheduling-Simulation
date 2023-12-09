@@ -332,13 +332,6 @@ public class main extends javax.swing.JFrame {
     Vector<Process> Processes = new Vector<>();
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
-    Process p = new Process();
-    p.setName(jTextField1.getText());
-    p.setColor(JColorChooser.showDialog(null, "Choose Color", Color.BLACK)); 
-    p.setArrivalTime(Integer.parseInt(jTextField2.getText()));
-    p.setBurstTime(Integer.parseInt(jTextField3.getText()));
-    p.setPriorityNumber(Integer.parseInt(jTextField4.getText()));
-    
     String processName = jTextField1.getText();
     String arrivalTime = jTextField2.getText();
     String burstTime = jTextField3.getText();
@@ -346,6 +339,13 @@ public class main extends javax.swing.JFrame {
     Object[] rowData = {processName, arrivalTime, burstTime, priorityNumber};
     DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
     model.addRow(rowData);
+    Process p = new Process();
+    p.setName(jTextField1.getText());
+    p.setColor((jPanel2.getBackground())); 
+    p.setArrivalTime(Integer.parseInt(jTextField2.getText()));
+    p.setBurstTime(Integer.parseInt(jTextField3.getText()));
+    p.setPriorityNumber(Integer.parseInt(jTextField4.getText()));
+    
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -363,15 +363,19 @@ public class main extends javax.swing.JFrame {
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
         if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
         String selectedAlgorithm = (String) jComboBox1.getSelectedItem();
-        if ("AG Scheduling".equals(selectedAlgorithm)) {
-        jTextField5.setEnabled(true);
-    } else if ("SJF".equals(selectedAlgorithm)) {
-        jTextField6.setEnabled(true);
-    } else {
+
+        // Disable and clear both text fields initially
         jTextField5.setEnabled(false);
+        jTextField5.setText("");
         jTextField6.setEnabled(false);
-    }
-        
+        jTextField6.setText("");
+
+        // Enable the appropriate text field based on the selected algorithm
+        if ("AG Scheduling".equals(selectedAlgorithm)) {
+            jTextField5.setEnabled(true);
+        } else if ("SJF".equals(selectedAlgorithm)) {
+            jTextField6.setEnabled(true);
+        }
     }
     }//GEN-LAST:event_jComboBox1ItemStateChanged
 
