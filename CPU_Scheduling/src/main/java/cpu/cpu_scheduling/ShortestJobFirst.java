@@ -8,12 +8,13 @@ import java.util.PriorityQueue;
 public class ShortestJobFirst {
 
     private ArrayList<Process>Processes;
-
+    private int contextSwitching;
     // Priority queue based on the process's Burst, Lowest BurstTime is on the top
     private PriorityQueue<Process> waitingQueue = new PriorityQueue<>(Comparator.comparingInt(process -> process.burstTime));;
-    public ShortestJobFirst(ArrayList<Process>Processes)
+    public ShortestJobFirst(ArrayList<Process>Processes , int contextSwitching)
     {
         this.Processes = Processes;
+        this.contextSwitching = contextSwitching;
         // sort the processes according to their ArrivalTime
         Processes.sort(Comparator.comparingInt(Process::GetArrivalTime));
 
@@ -47,25 +48,31 @@ public class ShortestJobFirst {
 
             if(currTime >= CurrProcessInArray.arrivalTime && Index < n)
             {
-//                System.out.println("AT time: " + currTime + " we Adeed " + CurrProcessInArray.Name);
+                System.out.println("AT time: " + currTime + " we Adeed " + CurrProcessInArray.Name);
                 waitingQueue.add(CurrProcessInArray);
                 Index++;
             }
 
             if(currProcessOnCPU == null)
             {
-//                System.out.println(waitingQueue.peek().Name + " arrived and executed ");
+                System.out.println(waitingQueue.peek().Name + " arrived and executed ");
                 currProcessOnCPU = waitingQueue.poll();
+                if(ProcessOrder !=1)
+                    currTime += contextSwitching;
             }
-            assert currProcessOnCPU != null;
-            currProcessOnCPU.burstDone++;
+           if(currProcessOnCPU!= null)
+           {
+               currProcessOnCPU.burstDone++;
+           }
 
             currTime++;
 
+            System.out.println("Now Index: " + Index +" > " + n);
             if(Index >= Processes.size() && waitingQueue.isEmpty())
                 break;
         }
 
+        System.out.println("the remaining Process is " + currProcessOnCPU.Name);
 //         We still have the last Process unfinished;
         currProcessOnCPU.EndTheProcess(currTime + (currProcessOnCPU.burstTime - currProcessOnCPU.burstDone));
         currProcessOnCPU.Order = Processes.size();

@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class CPU_Scheduling {
     private static int pNumbers;
     private static int Quantum;
-    private static int Context;
+    private static int ContextSwitching;
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         ArrayList<Process> Processes = new ArrayList<>();
@@ -25,7 +25,7 @@ public class CPU_Scheduling {
         Quantum = scanner.nextInt();
 
         System.out.println("Enter context switching time");
-        Quantum = scanner.nextInt();
+        ContextSwitching = scanner.nextInt();
 
 
         for (int i = 0; i < pNumbers; i++) {
@@ -48,7 +48,7 @@ public class CPU_Scheduling {
             Processes.add(new Process(processName, processColor, arrivalTime, burstTime, priority));
         }
 
-        ShortestJobFirst sjf = new ShortestJobFirst(Processes) ;
+        ShortestJobFirst sjf = new ShortestJobFirst(Processes , ContextSwitching) ;
         sjf.SJF();
 
 
