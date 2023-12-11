@@ -1,5 +1,6 @@
 package cpu.cpu_scheduling;
 
+import java.security.KeyPair;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -15,14 +16,26 @@ public class AGSchedule {
     private int index;
     private int n;
 
+
+    // used for final outputs
+    private ArrayList<Integer> TimeForProcesses;
+    private ArrayList<String> ProcessesOrder;
+
+    private ArrayList<ArrayList<String>> FinalResult;
+
     private int AGFactorGeneration() {
         Random random = new Random();
         return random.nextInt(21);
     }
 
     public AGSchedule(List<Process> processes) {
+        TimeForProcesses=new ArrayList<>();
+        ProcessesOrder = new ArrayList<>();
+        FinalResult= new ArrayList<>();
         this.processes = processes;
         processes.sort(Comparator.comparingInt(Process::GetArrivalTime));
+//        for (Process P : processes)
+//            P.SetAGFactor(AGFactorGeneration());
         n = processes.size();
     }
 
@@ -34,24 +47,27 @@ public class AGSchedule {
 
         while (!waitingQueue.isEmpty() || index < n) {
             if (!waitingQueue.isEmpty() && waitingQueue.get(0) == currProcessOnCPU) {
+                // When currProcessOnCPU is the first process on the queue . Remove it from the queue
                 waitingQueue.remove(0);
             }
-//            System.out.println("Curr Time is: " + currTime);
+            if(IsBurstFinished(currProcessOnCPU))
+            {
+                currProcessOnCPU = FirstItemAtQueue();
+                continue;
+            }
+            System.out.println("Curr Time is: " + currTime);
+            TimeForProcesses.add(currTime);
+            ProcessesOrder.add(currProcessOnCPU.Name  );
             PrintQuantumList();
             CheckArrivedProcesses(currTime);
             System.out.println("currProcess is: " + currProcessOnCPU.Name);
 
             if (!ExecuteProcess(currProcessOnCPU)) {
 //                System.out.println("Returned False ");
+                // It means that we need to move one second by one, then check  whether there is interrupton or quantum is finished;
                 while (true) {
-                    if ((!waitingQueue.isEmpty() && FindMinAGFactor(currProcessOnCPU).AGFactor < currProcessOnCPU.AGFactor && index < n)) {
-                        currProcessOnCPU.Quantum += currProcessOnCPU.RemainingQuantum;
-                        currProcessOnCPU.RemainingQuantum = currProcessOnCPU.Quantum;
-//                        System.out.println("I have Added " + currProcessOnCPU.Name);
-                        waitingQueue.add(currProcessOnCPU);
+                    if (IsProcessInterrupted(currProcessOnCPU)) {
                         currProcessOnCPU = FindMinAGFactor(currProcessOnCPU);
-//                        System.out.println("Current Process " + currProcessOnCPU.Name + " will be executed 3afya lowe FActor");
-//                        Tarteb();
                         break;
                     }
 
@@ -61,19 +77,11 @@ public class AGSchedule {
                     currProcessOnCPU.RemainingQuantum -= 1;
                     currProcessOnCPU.burstDone += 1;
 
-                    if (currProcessOnCPU.burstDone == currProcessOnCPU.burstTime) {
-                        currProcessOnCPU.Quantum = 0;
+                    if (IsBurstFinished(currProcessOnCPU)) {
                         currProcessOnCPU = FirstItemAtQueue();
                         break;
                     } else {
-                        if (currProcessOnCPU.RemainingQuantum == 0) {
-//                            System.out.println("**Process: " + currProcessOnCPU.Name + " is added to the queue");
-//                            System.out.println("Befor Adding Quantum was:" + currProcessOnCPU.Quantum);
-                            waitingQueue.add(currProcessOnCPU);
-                            currProcessOnCPU.Quantum += (int) Math.ceil(0.1 * QuantumMean());
-                            currProcessOnCPU.RemainingQuantum = currProcessOnCPU.Quantum;
-//                            System.out.println("WE have added Mean * 0.1: " + (int) Math.ceil(0.1 * QuantumMean()));
-//                            System.out.println("**WE will take first item at the queue");
+                        if (IsQuantumFinished(currProcessOnCPU)) {
                             currProcessOnCPU = FirstItemAtQueue();
                             break;
                         }
@@ -84,13 +92,22 @@ public class AGSchedule {
 //                System.out.println("returned True");
                 currProcessOnCPU = FirstItemAtQueue();
             }
-//            Tarteb();
 //            sleep(2000);
         }
+        // Last Process is not Finished yet
+        PrintQuantumList();
+        System.out.println("Curr time is: " + currTime);
+        System.out.println("currProcess is: " + currProcessOnCPU.Name);
+        TimeForProcesses.add(currTime);
+
+
         currTime+= currProcessOnCPU.burstTime - currProcessOnCPU.burstDone;
+        TimeForProcesses.add(currTime);
+        ProcessesOrder.add(currProcessOnCPU.Name  );
         currProcessOnCPU.Quantum = 0;
         PrintQuantumList();
         System.out.println("Last completion Time is " + currTime);
+        PrintFinalResult();
 
     }
 
@@ -109,17 +126,52 @@ public class AGSchedule {
         }
     }
 
-    private boolean ExecuteProcess(Process P) {
+    private boolean IsBurstFinished(Process P){
         if (P.burstDone == P.burstTime) {
             P.Quantum = 0;
             return true;
         }
+        return false;
+    }
+
+    private boolean IsQuantumFinished(Process P)
+    {
+        if (P.RemainingQuantum == 0) {
+//                            System.out.println("**Process: " + currProcessOnCPU.Name + " is added to the queue");
+//                            System.out.println("Befor Adding Quantum was:" + currProcessOnCPU.Quantum);
+            waitingQueue.add(P);
+            P.Quantum += (int) Math.ceil(0.1 * QuantumMean());
+            P.RemainingQuantum = P.Quantum;
+//                            System.out.println("WE have added Mean * 0.1: " + (int) Math.ceil(0.1 * QuantumMean()));
+            return true;
+        }
+        return false;
+    }
+
+    private boolean IsProcessInterrupted(Process P)
+    {
+        if ((!waitingQueue.isEmpty() && FindMinAGFactor(P).AGFactor < P.AGFactor && index < n)) {
+            P.Quantum += P.RemainingQuantum;
+            P.RemainingQuantum = P.Quantum;
+//                        System.out.println("I have Added " + currProcessOnCPU.Name);
+            waitingQueue.add(P);
+//                        System.out.println("Current Process " + currProcessOnCPU.Name + " will be executed 3afya lowe FActor");
+//                        Tarteb();
+            return true;
+        }
+        return false;
+    }
+
+    private boolean ExecuteProcess(Process P) {
+        // Process is already finished
+        if(IsBurstFinished(P))
+            return true;
 
         int CeilOfQuantum = (int) ceil(P.Quantum / 2.0);
 //        System.out.println("Half Quantum: " + CeilOfQuantum);
 
         if (P.burstTime - P.burstDone < CeilOfQuantum) {
-//            System.out.println("We don't need all of the ceilOFQuantum");
+//            System.out.println("We don't need all the ceilOFQuantum");
             currTime += P.burstTime - P.burstDone;
             P.Quantum = 0;
             P.burstDone = P.burstTime;
@@ -136,16 +188,12 @@ public class AGSchedule {
             P.RemainingQuantum = 0;
         }
 
-        if (P.burstDone == P.burstTime) {
-            P.Quantum = 0;
+        if(IsBurstFinished(P))
             return true;
-        } else {
-            if (P.RemainingQuantum == 0) {
+        else {
+            if (IsQuantumFinished(P)) {
 //                System.out.println("Process: " + P.Name + " is added to the queue");
 //                System.out.println("WE have added Mean * 0.1: " + 0.1 * QuantumMean());
-                waitingQueue.add(P);
-                P.Quantum += 0.1 * QuantumMean();
-                P.RemainingQuantum = P.Quantum;
                 return true;
             }
         }
@@ -177,20 +225,7 @@ public class AGSchedule {
         return min;
     }
 
-    private Process FindandRemoveMinAGFactor(Process CurrentProcessOnCPU) {
-        Process min = new Process("Dymmu", "Dummy", 0, 0, 0, 0, 0);
-        min.AGFactor = 9999999;
-        for (Process P : waitingQueue) {
-            if (CurrentProcessOnCPU != null && CurrentProcessOnCPU.equals(P))
-                continue;
-            if (min.AGFactor > P.AGFactor)
-                min = P;
-        }
-//        System.out.println("we have returned min: " + min.Name);
-        waitingQueue.remove(min);
-//        System.out.println("now there are " + waitingQueue.size() + " in queue");
-        return min;
-    }
+
 
     private Process FirstItemAtQueue() {
         Process p = waitingQueue.get(0);
@@ -198,15 +233,15 @@ public class AGSchedule {
         return p;
     }
 
-    private void Tarteb() {
-        System.out.println("-------------------------------------");
-        for (int i = 0; i < waitingQueue.size(); i++) {
-            System.out.println(waitingQueue.get(i).Name);
+
+    private void PrintFinalResult(){
+        for (int i = 0; i < ProcessesOrder.size(); i++) {
+            System.out.print(ProcessesOrder.get(i) + " -->");
+            System.out.println(TimeForProcesses.get(i) + "  " + TimeForProcesses.get(i+1));
         }
-        System.out.println("-------------------------------------");
     }
 
-    private void CheckAfterExecution() {
-        // Not sure what needs to be checked after execution
-    }
+
+
+
 }

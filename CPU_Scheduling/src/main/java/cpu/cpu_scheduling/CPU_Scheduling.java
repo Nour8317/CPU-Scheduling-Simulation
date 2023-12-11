@@ -14,6 +14,7 @@ public class CPU_Scheduling {
     private static int pNumbers;
     private static int Quantum;
     private static int ContextSwitching;
+
     public static void main(String[] args) throws InterruptedException {
         Scanner scanner = new Scanner(System.in);
         ArrayList<Process> Processes = new ArrayList<>();
@@ -27,6 +28,7 @@ public class CPU_Scheduling {
         System.out.println("Enter context switching time");
         ContextSwitching = scanner.nextInt();
 
+        // AG Schedule Example -- For Testing Purposes Only
         Processes.add(new Process("P1","Red" ,0 , 17 , 4,Quantum,20));
         Processes.add(new Process("P2","Red" ,3 , 6 , 4,Quantum,17));
         Processes.add(new Process("P3","Red" ,4 , 10 , 4,Quantum,16));

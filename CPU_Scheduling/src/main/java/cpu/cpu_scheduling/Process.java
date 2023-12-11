@@ -51,15 +51,15 @@ public class Process implements Comparable<Process> {
     }
 
 
-//    public void SetAGFactor(int Random){
-//        if(Random <10){
-//            AGFactor =  Random + this.arrivalTime + this.burstTime;
-//        }
-//        else if(Random == 10){
-//            AGFactor = this.Priority + this.arrivalTime + this.burstTime;
-//        }
-//        else{
-//            AGFactor =  10 + this.arrivalTime + this.burstTime;
-//        }
-//    }
+    public void SetAGFactor(int Random){
+        if(Random <10){
+            AGFactor =  Random + this.arrivalTime + this.burstTime;
+        }
+        else if(Random == 10){
+            AGFactor = this.Priority + this.arrivalTime + this.burstTime;
+        }
+        else{
+            AGFactor =  10 + this.arrivalTime + this.burstTime;
+        }
+    }
 }
