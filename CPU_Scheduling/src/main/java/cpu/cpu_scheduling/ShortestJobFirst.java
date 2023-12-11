@@ -85,6 +85,7 @@ public class ShortestJobFirst {
             TotalTurnAroundTime+= p.turnAroundTime;
             TotalWaitingTime+= p.waitingTime;
             p.PrintProcessDetails();
+            p.burstDone = 0;
         }
         System.out.println("Average Waiting Time is: " + TotalWaitingTime / n);
         System.out.println("Average TurnAround Time is: " + TotalTurnAroundTime / n);
