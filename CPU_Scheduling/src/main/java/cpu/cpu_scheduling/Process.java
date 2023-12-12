@@ -26,7 +26,11 @@ public class Process implements Comparable<Process> {
         this.RemainingQuantum =Quantum;
         this.AGFactor = FActor;
     }
-
+    public Process(){
+    }
+    public int getPriority(){
+        return Priority;
+    }
     public int GetArrivalTime()
     {
         return arrivalTime;

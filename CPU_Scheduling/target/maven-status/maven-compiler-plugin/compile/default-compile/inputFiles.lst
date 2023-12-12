@@ -1,9 +1,7 @@
-E:\projects\CPU-Scheduling-Simulation\CPU_Scheduling\src\main\java\cpu\cpu_scheduling\AGScheduling.java
+E:\projects\CPU-Scheduling-Simulation\CPU_Scheduling\src\main\java\cpu\cpu_scheduling\GUI.java
 E:\projects\CPU-Scheduling-Simulation\CPU_Scheduling\src\main\java\cpu\cpu_scheduling\Process_Simulation.java
-E:\projects\CPU-Scheduling-Simulation\CPU_Scheduling\src\main\java\cpu\cpu_scheduling\SJF.java
 E:\projects\CPU-Scheduling-Simulation\CPU_Scheduling\src\main\java\cpu\cpu_scheduling\Process.java
-E:\projects\CPU-Scheduling-Simulation\CPU_Scheduling\src\main\java\cpu\cpu_scheduling\scheduling.java
-E:\projects\CPU-Scheduling-Simulation\CPU_Scheduling\src\main\java\cpu\cpu_scheduling\SRTF.java
+E:\projects\CPU-Scheduling-Simulation\CPU_Scheduling\src\main\java\cpu\cpu_scheduling\ShortestJobFirst.java
+E:\projects\CPU-Scheduling-Simulation\CPU_Scheduling\src\main\java\cpu\cpu_scheduling\AGSchedule.java
 E:\projects\CPU-Scheduling-Simulation\CPU_Scheduling\src\main\java\cpu\cpu_scheduling\priorityScheduling.java
 E:\projects\CPU-Scheduling-Simulation\CPU_Scheduling\src\main\java\cpu\cpu_scheduling\CPU_Scheduling.java
-E:\projects\CPU-Scheduling-Simulation\CPU_Scheduling\src\main\java\cpu\cpu_scheduling\main.java
