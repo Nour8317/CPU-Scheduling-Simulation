@@ -1,5 +1,7 @@
 package cpu.cpu_scheduling;
 
+import java.util.Vector;
+
 public class Process implements Comparable<Process> {
     String Name;
     String Color;
@@ -14,17 +16,32 @@ public class Process implements Comparable<Process> {
     int Quantum;
     int RemainingQuantum ;
     int AGFactor;
+    int finishTime;
+    Vector<duration> durations;
 
     public Process(String name, String color , int arrivalTime , int burstTime , int priority,  int Quantum,int FActor )
     {
-        this.Name = name ;
-        this.Color = color ;
+        this.Name = name;
+        this.Color = color;
         this.arrivalTime = arrivalTime;
         this.burstTime = burstTime;
-        this.Priority  = priority;
-        this.Quantum =Quantum;
-        this.RemainingQuantum =Quantum;
+        this.Priority = priority;
+        this.Quantum = Quantum;
+        this.RemainingQuantum = Quantum;
         this.AGFactor = FActor;
+        this.durations = new Vector<duration>();
+    }
+
+    public String printDurations() {
+        String s = "";
+        for (duration d : durations) {
+            s += "start time= " + d.start + "ending time= " + d.end + '\n';
+        }
+        return s;
+    }
+    public void createduration(int start, int end){
+        duration d = new duration(start, end);
+        durations.add(d);
     }
 
     public int GetArrivalTime()
