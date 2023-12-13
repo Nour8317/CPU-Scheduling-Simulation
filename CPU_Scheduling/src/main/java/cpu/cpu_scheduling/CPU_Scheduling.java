@@ -65,8 +65,8 @@ public class CPU_Scheduling {
 //
 //        AGSchedule AG = new AGSchedule(Processes);
 //        AG.AGStart();
-    SRTF s = new SRTF();
-    s.startSRTF(Processes);
+        PriorityScheduling s = new PriorityScheduling();
+        s.startPriorityScheduling(Processes);
 
     }
 }

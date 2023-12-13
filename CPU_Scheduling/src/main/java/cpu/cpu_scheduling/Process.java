@@ -43,7 +43,7 @@ public class Process implements Comparable<Process> {
         duration d = new duration(start, end);
         durations.add(d);
     }
-
+    
     public int GetArrivalTime()
     {
         return arrivalTime;
