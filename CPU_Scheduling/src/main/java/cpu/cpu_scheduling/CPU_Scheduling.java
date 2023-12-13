@@ -6,7 +6,6 @@ package cpu.cpu_scheduling;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Vector;
 /**
  *
  * @author Nour eldeen
@@ -18,16 +17,22 @@ public class CPU_Scheduling {
 
     public static void main(String[] args) throws InterruptedException {
         Scanner scanner = new Scanner(System.in);
-        //ArrayList<Process> Processes = new ArrayList<>();
-        Vector<Process> Processes = new Vector();
+        ArrayList<Process> Processes = new ArrayList<>();
 //        GUI.startGUI();
+        System.out.println("Enter the number of Processes");
+        pNumbers = scanner.nextInt();
+
+        System.out.println("Enter Round Robin Time Quantum");
+        Quantum = scanner.nextInt();
+
+        System.out.println("Enter context switching time");
+        ContextSwitching = scanner.nextInt();
+
         // AG Schedule Example -- For Testing Purposes Only
-        Processes.add(new Process("P1","Red" ,0 , 11 , 2,0,0));
-        Processes.add(new Process("P2","Red" ,5 , 20 , 0,0,0));
-        Processes.add(new Process("P3","Red" ,12 , 2 , 3,0,0));
-        Processes.add(new Process("P4","Red" ,2 , 10 , 1,0,0));
-        Processes.add(new Process("P5","Red" ,9 , 16 , 4,0,0));
-        
+        Processes.add(new Process("P1","Red" ,0 , 17 , 4,Quantum,20));
+        Processes.add(new Process("P2","Red" ,3 , 6 , 4,Quantum,17));
+        Processes.add(new Process("P3","Red" ,4 , 10 , 4,Quantum,16));
+        Processes.add(new Process("P4","Red" ,29 , 4 , 4,Quantum,43));
 
 //        for (int i = 0; i < pNumbers; i++) {
 //            System.out.println("Enter details for Process " + (i + 1));
@@ -52,10 +57,9 @@ public class CPU_Scheduling {
 //        ShortestJobFirst sjf = new ShortestJobFirst(Processes , ContextSwitching) ;
 //        sjf.SJF();
 
-//        AGSchedule AG = new AGSchedule(Processes);
-//        AG.AGStart();
-          priorityScheduling ps = new priorityScheduling();
-          ps.prioritySchedulingStart(Processes);
+        AGSchedule AG = new AGSchedule(Processes);
+        AG.AGStart();
+
 
     }
 }
