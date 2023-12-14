@@ -13,7 +13,7 @@ import java.util.Vector;
  */
 public class CPU_Scheduling {
     private static int pNumbers;
-    private static int Quantum;
+    private static int Quantum = 4;
     private static int ContextSwitching;
 
     public static void main(String[] args) throws InterruptedException {
@@ -30,11 +30,11 @@ public class CPU_Scheduling {
 //        ContextSwitching = scanner.nextInt();
 //
 //         SJF Exapmle-1 From the slides
-        Processes.add(new Process("P1","Red" ,0 , 7 , 4,Quantum,20));
-        Processes.add(new Process("P2","Red" ,2 , 4 , 4,Quantum,17));
-        Processes.add(new Process("P3","Red" ,4 , 1 , 4,Quantum,16));
-        Processes.add(new Process("P4","Red" ,5 , 4 , 4,Quantum,43));
-////
+//        Processes.add(new Process("P1","Red" ,0 , 7 , 4,Quantum,20));
+//        Processes.add(new Process("P2","Red" ,2 , 4 , 4,Quantum,17));
+//        Processes.add(new Process("P3","Red" ,4 , 1 , 4,Quantum,16));
+//        Processes.add(new Process("P4","Red" ,5 , 4 , 4,Quantum,43));
+//
 //        // AG Schedule Example -- For Testing Purposes Only
 //        Processes.add(new Process("P1","Red" ,0 , 17 , 4,Quantum,20));
 //        Processes.add(new Process("P2","Red" ,3 , 6 , 4,Quantum,17));
@@ -42,11 +42,11 @@ public class CPU_Scheduling {
 //        Processes.add(new Process("P4","Red" ,29 , 4 , 4,Quantum,43));
 //
 //         SRTF Exapmle-1 From the slides
-//        Processes.add(new Process("P1","Red" ,0 , 7 , 4,Quantum,20));
-//        Processes.add(new Process("P2","Red" ,2 , 4 , 4,Quantum,17));
-//        Processes.add(new Process("P3","Red" ,4 , 1 , 4,Quantum,16));
-//        Processes.add(new Process("P4","Red" ,5 , 4 , 4,Quantum,43));
-////
+        Processes.add(new Process("P1","Red" ,0 , 7 , 4,Quantum,20));
+        Processes.add(new Process("P2","Red" ,2 , 4 , 4,Quantum,17));
+        Processes.add(new Process("P3","Red" ,4 , 1 , 4,Quantum,16));
+        Processes.add(new Process("P4","Red" ,5 , 4 , 4,Quantum,43));
+//
 ////         SRTF Exapmle-2 From the slides
 ////        Processes.add(new Process("P1","Red" ,0 , 8 , 4,Quantum,20));
 ////        Processes.add(new Process("P2","Red" ,1 , 4 , 4,Quantum,17));
@@ -79,22 +79,30 @@ public class CPU_Scheduling {
 //            Processes.add(new Process(processName, processColor, arrivalTime, burstTime, priority, Quantum));
 //        }
 
-        ShortestJobFirst sjf = new ShortestJobFirst(Processes , ContextSwitching) ;
-        sjf.SJF();
-//
-//        AGSchedule AG = new AGSchedule(Processes);
-//        AG.AGStart();
+//        ShortestJobFirst sjf = new ShortestJobFirst(Processes , ContextSwitching) ;
+//        sjf.SJF();
+////
+        AGSchedule AG = new AGSchedule(Processes);
+        AG.AGStart();
+        AG.ResetPocesses();
+
 //        PriorityScheduling s = new PriorityScheduling();
 //        s.startPriorityScheduling(Processes);
+
+//        PriorityScheduling2 PP = new PriorityScheduling2(Processes);
+//        PP.Start();
+//        PP.ResetProcesses();
 
 
 //        SRTF2 srtf2 = new SRTF2(Processes);
 //        srtf2.Start();
+//        srtf2.ResetPocesses();
 //        SRTF srtf = new SRTF();
 //        srtf.startSRTF(Processes);
 
-//        PriorityScheduling2 ss = new PriorityScheduling2(Processes);
-//        ss.Start();
+//        ShortestJobFirst sh = new ShortestJobFirst(Processes,0);
+//        sh.SJF();
+//        sh.ResetProcesses();
 
 
     }

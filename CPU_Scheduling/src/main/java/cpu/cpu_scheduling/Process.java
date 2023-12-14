@@ -69,6 +69,13 @@ public class Process implements Comparable<Process> {
         System.out.println("---------------------------------------------------------------");
     }
 
+    public void Reset(){
+        this.burstDone=0;
+        this.RemainingQuantum = Quantum;
+        this.BurstRemaining = burstTime;
+        this.durations.clear();
+
+    }
 
     public void SetAGFactor(int Random){
         if(Random <10){

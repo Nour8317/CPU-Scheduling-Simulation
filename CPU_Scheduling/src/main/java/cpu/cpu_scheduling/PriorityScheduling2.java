@@ -11,8 +11,10 @@ public class PriorityScheduling2 {
     private PriorityQueue<Process> waitingQueue ;
     private int currTime;
     private int Index =0 ;
-    int ProcessOrder=1;
+    private int ProcessOrder=1;
     private int n;
+
+    private int startTime;
     public PriorityScheduling2(ArrayList<Process> P)
     {
         this.Processes = P;
@@ -25,6 +27,7 @@ public class PriorityScheduling2 {
         Process currProcessOnCPU= null;
         // Starts at the lowest first arrival time
         currTime = Processes.get(0).arrivalTime;
+        startTime =currTime;
         CheckArrivedProcesses(currTime);
         while(Index < n || !waitingQueue.isEmpty()) {
             StarvationSolver(currTime);
@@ -41,6 +44,8 @@ public class PriorityScheduling2 {
         P.EndTheProcess(currTime);
         P.Order = ProcessOrder;
         ProcessOrder++;
+        P.createduration(startTime,currTime);
+        startTime=currTime;
         CheckArrivedProcesses(currTime);
     }
     private void CheckArrivedProcesses(int time) {
@@ -83,6 +88,12 @@ public class PriorityScheduling2 {
             {
                 P.Priority--;
             }
+        }
+    }
+    public void ResetProcesses(){
+        for (Process p : Processes)
+        {
+            p.Reset();
         }
     }
 

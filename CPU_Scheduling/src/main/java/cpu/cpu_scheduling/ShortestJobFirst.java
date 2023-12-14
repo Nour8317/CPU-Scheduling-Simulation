@@ -42,8 +42,6 @@ public class ShortestJobFirst {
             System.out.println(currTime);
         }
         PrintFinalDetails();
-        for (Process P : Processes)
-            System.out.println( P.Name +" " +P.printDurations());
     }
     private void ExecuteProcess(Process P){
 //        System.out.println("Process: " + P.Name+ " Is being Processed");
@@ -85,5 +83,10 @@ public class ShortestJobFirst {
             currProcessInArray = Processes.get(Index);
         }
     }
-
+    public void ResetProcesses(){
+        for (Process p : Processes)
+        {
+            p.Reset();
+        }
+    }
 }

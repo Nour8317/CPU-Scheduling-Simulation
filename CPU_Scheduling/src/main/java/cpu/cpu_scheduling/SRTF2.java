@@ -13,6 +13,8 @@ public class SRTF2 {
     private int currTime;
     private int Index =0 ;
     private int n;
+
+    private int startTime;
     public SRTF2(ArrayList<Process> P)
     {
         this.Processes = P;
@@ -26,18 +28,22 @@ public class SRTF2 {
         String LastExecutedProcess = "";
         // Starts at the lowest first arrival time
         currTime = Processes.get(0).arrivalTime;
+        startTime= currTime ;
         CheckArrivedProcesses(currTime);
         currProcessOnCPU = waitingQueue.poll();
         while(Index < n || !waitingQueue.isEmpty()) {
             if(!Objects.equals(LastExecutedProcess, currProcessOnCPU.Name))
             {// For Printing  Purposes Only
                 System.out.print(currProcessOnCPU.Name+" From time: " + currTime + " to: ");
+                startTime=currTime;
                 LastExecutedProcess = currProcessOnCPU.Name;
             }
             if(IsBurstFinished(currProcessOnCPU))
             {
+                currProcessOnCPU.createduration(startTime,currTime);
                 currProcessOnCPU.Order =ProcessOrder;
                 currProcessOnCPU.EndTheProcess(currTime);
+
                 currProcessOnCPU = waitingQueue.poll();
                 System.out.println(currTime);
                 ProcessOrder++;
@@ -45,6 +51,7 @@ public class SRTF2 {
             }
             if(CheckLowerBurstFound(currProcessOnCPU))
             {
+                currProcessOnCPU.createduration(startTime,currTime);
                 waitingQueue.add(currProcessOnCPU);
                 currProcessOnCPU = waitingQueue.poll();
                 System.out.println(currTime);
@@ -59,14 +66,14 @@ public class SRTF2 {
         {
             System.out.print(currProcessOnCPU.Name+" From time: " + currTime + " to: ");
             currTime += currProcessOnCPU.BurstRemaining;
+            currProcessOnCPU.createduration(startTime,currTime);
             currProcessOnCPU.EndTheProcess(currTime);
             currProcessOnCPU.Order =ProcessOrder;
             System.out.println(currTime);
         }
-
-
         PrintFinalDetails();
-        ResetAllProcesses();
+        for (Process P : Processes)
+            System.out.println(P.Name + " --> " + P.printDurations());
     }
 
     private void CheckArrivedProcesses(int time) {
@@ -117,8 +124,8 @@ public class SRTF2 {
         return false;
     }
 
-    private void ResetAllProcesses(){
+    public void ResetPocesses(){
         for (Process P : Processes)
-            P.BurstRemaining = P.burstTime;
+            P.Reset();
     }
 }

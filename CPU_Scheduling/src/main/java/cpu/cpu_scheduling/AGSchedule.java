@@ -16,10 +16,12 @@ public class AGSchedule {
     private int index;
     private int n;
 
+    private int startTime;
+
 
     // used for final outputs
     private ArrayList<Integer> TimeForProcesses;
-    private ArrayList<String> ProcessesOrder;
+    private ArrayList<Process> ProcessesOrder;
 
     private ArrayList<ArrayList<String>> FinalResult;
 
@@ -44,7 +46,6 @@ public class AGSchedule {
         currTime = processes.get(0).arrivalTime;
         CheckArrivedProcesses(currTime);
         currProcessOnCPU = FirstItemAtQueue();
-
         while (!waitingQueue.isEmpty() || index < n) {
             if (!waitingQueue.isEmpty() && waitingQueue.get(0) == currProcessOnCPU) {
                 // When currProcessOnCPU is the first process on the queue . Remove it from the queue
@@ -57,13 +58,12 @@ public class AGSchedule {
             }
             System.out.println("Curr Time is: " + currTime);
             TimeForProcesses.add(currTime);
-            ProcessesOrder.add(currProcessOnCPU.Name  );
+            ProcessesOrder.add(currProcessOnCPU );
             PrintQuantumList();
             CheckArrivedProcesses(currTime);
             System.out.println("currProcess is: " + currProcessOnCPU.Name);
 
             if (!ExecuteProcess(currProcessOnCPU)) {
-//                System.out.println("Returned False ");
                 // It means that we need to move one second by one, then check  whether there is interrupton or quantum is finished;
                 while (true) {
                     if (IsProcessInterrupted(currProcessOnCPU)) {
@@ -72,7 +72,6 @@ public class AGSchedule {
                     }
 
                     currTime++;
-//                    System.out.println("currTime: " + currTime);
                     CheckArrivedProcesses(currTime);
                     currProcessOnCPU.RemainingQuantum -= 1;
                     currProcessOnCPU.burstDone += 1;
@@ -86,29 +85,26 @@ public class AGSchedule {
                             break;
                         }
                     }
-//                    sleep(2000);
                 }
             } else {
-//                System.out.println("returned True");
                 currProcessOnCPU = FirstItemAtQueue();
             }
-//            sleep(2000);
         }
         // Last Process is not Finished yet
         PrintQuantumList();
-        System.out.println("Curr time is: " + currTime);
         System.out.println("currProcess is: " + currProcessOnCPU.Name);
         TimeForProcesses.add(currTime);
 
 
         currTime+= currProcessOnCPU.burstTime - currProcessOnCPU.burstDone;
         TimeForProcesses.add(currTime);
-        ProcessesOrder.add(currProcessOnCPU.Name  );
+        ProcessesOrder.add(currProcessOnCPU);
         currProcessOnCPU.Quantum = 0;
         PrintQuantumList();
         System.out.println("Last completion Time is " + currTime);
         PrintFinalResult();
-
+        for (Process P : processes)
+            System.out.println( P.Name +" " +P.printDurations());
     }
 
     private void CheckArrivedProcesses(int time) {
@@ -117,7 +113,6 @@ public class AGSchedule {
         Process currProcessInArray = processes.get(index);
 
         while (time >= currProcessInArray.arrivalTime) {
-//            System.out.println("AT time: " + currTime + " we Added " + currProcessInArray.Name);
             waitingQueue.add(currProcessInArray);
             index++;
             if (index == n)
@@ -125,7 +120,6 @@ public class AGSchedule {
             currProcessInArray = processes.get(index);
         }
     }
-
     private boolean IsBurstFinished(Process P){
         if (P.burstDone == P.burstTime) {
             P.Quantum = 0;
@@ -133,7 +127,6 @@ public class AGSchedule {
         }
         return false;
     }
-
     private boolean IsQuantumFinished(Process P)
     {
         if (P.RemainingQuantum == 0) {
@@ -147,16 +140,12 @@ public class AGSchedule {
         }
         return false;
     }
-
     private boolean IsProcessInterrupted(Process P)
     {
         if ((!waitingQueue.isEmpty() && FindMinAGFactor(P).AGFactor < P.AGFactor && index < n)) {
             P.Quantum += P.RemainingQuantum;
             P.RemainingQuantum = P.Quantum;
-//                        System.out.println("I have Added " + currProcessOnCPU.Name);
             waitingQueue.add(P);
-//                        System.out.println("Current Process " + currProcessOnCPU.Name + " will be executed 3afya lowe FActor");
-//                        Tarteb();
             return true;
         }
         return false;
@@ -168,17 +157,14 @@ public class AGSchedule {
             return true;
 
         int CeilOfQuantum = (int) ceil(P.Quantum / 2.0);
-//        System.out.println("Half Quantum: " + CeilOfQuantum);
 
         if (P.burstTime - P.burstDone < CeilOfQuantum) {
-//            System.out.println("We don't need all the ceilOFQuantum");
             currTime += P.burstTime - P.burstDone;
             P.Quantum = 0;
             P.burstDone = P.burstTime;
             return true;
         }
 
-//        System.out.println("remaining: " + P.RemainingQuantum);
         P.RemainingQuantum -= CeilOfQuantum;
         P.burstDone += CeilOfQuantum;
         currTime += CeilOfQuantum;
@@ -192,8 +178,6 @@ public class AGSchedule {
             return true;
         else {
             if (IsQuantumFinished(P)) {
-//                System.out.println("Process: " + P.Name + " is added to the queue");
-//                System.out.println("WE have added Mean * 0.1: " + 0.1 * QuantumMean());
                 return true;
             }
         }
@@ -236,10 +220,19 @@ public class AGSchedule {
 
     private void PrintFinalResult(){
         for (int i = 0; i < ProcessesOrder.size(); i++) {
-            System.out.print(ProcessesOrder.get(i) + " -->");
+            System.out.print(ProcessesOrder.get(i).Name + " -->");
             System.out.println(TimeForProcesses.get(i) + "  " + TimeForProcesses.get(i+1));
+            ProcessesOrder.get(i).createduration(TimeForProcesses.get(i),TimeForProcesses.get(i+1));
         }
     }
+
+    public void ResetPocesses(){
+        for (Process p : processes)
+        {
+            p.Reset();
+        }
+    }
+
 
 
 
