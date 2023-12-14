@@ -11,7 +11,9 @@ public class ShortestJobFirst {
     private int contextSwitching;
     private int n ;
     private int Index =0 ;
-    int currTime;
+    private int currTime;
+
+    private int startTime;
     private int ProcessOrder = 1;
     // Priority queue based on the process's Burst, Lowest BurstTime is on the top
     private PriorityQueue<Process> waitingQueue ;
@@ -30,6 +32,7 @@ public class ShortestJobFirst {
         Process currProcessOnCPU= null;
         // Starts at the lowest first arrival time
         currTime = Processes.get(0).arrivalTime;
+        startTime = currTime;
         CheckArrivedProcesses(currTime);
         while(Index < n || !waitingQueue.isEmpty())
         {
@@ -39,7 +42,8 @@ public class ShortestJobFirst {
             System.out.println(currTime);
         }
         PrintFinalDetails();
-
+        for (Process P : Processes)
+            System.out.println( P.Name +" " +P.printDurations());
     }
     private void ExecuteProcess(Process P){
 //        System.out.println("Process: " + P.Name+ " Is being Processed");
@@ -47,6 +51,8 @@ public class ShortestJobFirst {
         P.EndTheProcess(currTime);
         P.Order = ProcessOrder;
         ProcessOrder++;
+        P.createduration(startTime , currTime);
+        startTime = currTime;
         CheckArrivedProcesses(currTime);
     }
     private void PrintFinalDetails()
