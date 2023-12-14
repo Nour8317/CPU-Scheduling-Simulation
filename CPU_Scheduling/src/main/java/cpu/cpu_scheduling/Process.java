@@ -17,6 +17,7 @@ public class Process implements Comparable<Process> {
     int RemainingQuantum ;
     int AGFactor;
     int finishTime;
+    int BurstRemaining ;
     Vector<duration> durations;
 
     public Process(String name, String color , int arrivalTime , int burstTime , int priority,  int Quantum,int FActor )
@@ -30,6 +31,7 @@ public class Process implements Comparable<Process> {
         this.RemainingQuantum = Quantum;
         this.AGFactor = FActor;
         this.durations = new Vector<duration>();
+        BurstRemaining=burstTime;
     }
 
     public String printDurations() {
