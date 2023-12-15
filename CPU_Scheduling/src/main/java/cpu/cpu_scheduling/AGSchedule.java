@@ -1,5 +1,6 @@
 package cpu.cpu_scheduling;
 
+import java.awt.Color;
 import java.security.KeyPair;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -197,7 +198,8 @@ public class AGSchedule {
     }
 
     private Process FindMinAGFactor(Process CurrentProcessOnCPU) {
-        Process min = new Process("Dymmu", "Dummy", 0, 0, 0, 0, 0);
+        Color c = null;
+        Process min = new Process("Dymmu", c, 0, 0, 0, 0, 0);
         min.AGFactor = 9999999;
         for (Process P : waitingQueue) {
             if (CurrentProcessOnCPU != null && CurrentProcessOnCPU.equals(P))

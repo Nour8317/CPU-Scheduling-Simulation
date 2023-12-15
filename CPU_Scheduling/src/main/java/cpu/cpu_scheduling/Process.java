@@ -1,10 +1,11 @@
 package cpu.cpu_scheduling;
 
+import java.awt.Color;
 import java.util.Vector;
 
 public class Process implements Comparable<Process> {
     String Name;
-    String Color;
+    Color Color;
     int arrivalTime;
     int burstTime;
     int  Priority;
@@ -20,7 +21,7 @@ public class Process implements Comparable<Process> {
     int BurstRemaining ;
     Vector<duration> durations;
 
-    public Process(String name, String color , int arrivalTime , int burstTime , int priority,  int Quantum,int FActor )
+    public Process(String name, Color color , int arrivalTime , int burstTime , int priority,  int Quantum,int FActor )
     {
         this.Name = name;
         this.Color = color;
@@ -88,4 +89,13 @@ public class Process implements Comparable<Process> {
             AGFactor =  10 + this.arrivalTime + this.burstTime;
         }
     }
+    @Override
+                        public String toString() {
+    return Name +" "+ arrivalTime+" "+ burstTime +" "+ Priority +" "+ Order +" " + Quantum;
+}
+
+    long getArrivalTime() {
+        return arrivalTime; 
+    }
+    
 }

@@ -32,6 +32,9 @@ public class SRTF {
             }
         }
     }
+    
+
+     
     public void startSRTF(ArrayList<Process> processes) {
         int currTime = 0;
         int n = 0;

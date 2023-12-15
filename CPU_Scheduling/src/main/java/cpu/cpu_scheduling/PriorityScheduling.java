@@ -19,7 +19,7 @@ import java.util.Vector;
 
 public class PriorityScheduling {
     private PriorityQueue<Process> queue;
-    ArrayList<Process> finishedProcesses;
+    public ArrayList<Process> finishedProcesses;
     public PriorityScheduling() {
         queue = new PriorityQueue<>(Comparator.comparingInt(Process -> Process.Priority));
         finishedProcesses = new ArrayList<Process>();
@@ -49,15 +49,15 @@ public class PriorityScheduling {
                     currentProcess.burstTime--;
 
                 }
-                int end = currentTime;
+                int end = (currentTime);
                 currentProcess.createduration(start, end);
                 finishedProcesses.add(currentProcess);
                 currentProcess.finishTime = currentTime;
             }
         }
-        for (int i = 0; i < finishedProcesses.size(); i++) {
-            System.out.println(finishedProcesses.get(i).Name + " " + finishedProcesses.get(i).printDurations());
-        }
+//        for (int i = 0; i < finishedProcesses.size(); i++) {
+//            System.out.println(finishedProcesses.get(i).Name + " " + finishedProcesses.get(i).printDurations());
+//        }
     }
 
     public void refresh(int time,ArrayList<Process> processes) {

@@ -72,8 +72,8 @@ public class SRTF2 {
             System.out.println(currTime);
         }
         PrintFinalDetails();
-        for (Process P : Processes)
-            System.out.println(P.Name + " --> " + P.printDurations());
+//        for (Process P : Processes)
+//            System.out.println(P.Name + " --> " + P.printDurations());
     }
 
     private void CheckArrivedProcesses(int time) {
