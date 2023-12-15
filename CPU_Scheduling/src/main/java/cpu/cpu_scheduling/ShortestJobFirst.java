@@ -18,10 +18,10 @@ public class ShortestJobFirst {
     private int ProcessOrder = 1;
     // Priority queue based on the process's Burst, Lowest BurstTime is on the top
     private PriorityQueue<Process> waitingQueue ;
-    public ShortestJobFirst(ArrayList<Process>Processes )
+    public ShortestJobFirst(ArrayList<Process>Processes , int contextSwitching)
     {
         this.Processes = Processes;
-//        this.contextSwitching = contextSwitching;
+        this.contextSwitching = contextSwitching;
         // sort the processes according to their ArrivalTime
         n = Processes.size();
         this.waitingQueue = new PriorityQueue<>(Comparator.comparingInt(process -> process.burstTime));
@@ -47,13 +47,14 @@ public class ShortestJobFirst {
     }
     private void ExecuteProcess(Process P){
 //        System.out.println("Process: " + P.Name+ " Is being Processed");
-        currTime+= P.burstTime;
+        currTime+= P.burstTime+contextSwitching;
         P.EndTheProcess(currTime);
         P.Order = ProcessOrder;
         ProcessOrder++;
-        P.createduration(startTime , currTime);
+        P.createduration(startTime , currTime-contextSwitching);
         startTime = currTime;
         CheckArrivedProcesses(currTime);
+        finishedProcesses.add(P);
     }
     private void PrintFinalDetails()
     {
@@ -62,12 +63,14 @@ public class ShortestJobFirst {
 
         for(Process p :Processes)
         {
-            TotalTurnAroundTime+= p.turnAroundTime;
+            TotalTurnAroundTime+= p.turnAroundTime+contextSwitching;
             TotalWaitingTime+= p.waitingTime;
-            finishedProcesses.add(p);
+            
             p.PrintProcessDetails();
             p.burstDone = 0;
         }
+        
+        
         System.out.println("Average Waiting Time is: " + TotalWaitingTime / n);
         System.out.println("Average TurnAround Time is: " + TotalTurnAroundTime / n);
     }
