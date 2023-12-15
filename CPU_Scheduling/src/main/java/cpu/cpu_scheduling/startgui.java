@@ -315,23 +315,23 @@ public class startgui extends javax.swing.JFrame {
         int q = Integer.parseInt(Quantam);
         int FActor = 0;
         Object[] rowData = {processName, arrivalTime, burstTime, Quantam,priorityNumber};
-        Process p = new Process(processName, jPanel3.getBackground(), arrival, burst, priority, q, FActor);
-//        Processes.add(p);
+        Process p = new Process(processName, jPanel3.getBackground(), arrival, burst,q , priority, FActor);
+        Processes.add(p);
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.addRow(rowData);        // TODO add your handling code here:
-        
-        Process p1 = new Process("P1", Color.red, 0, 7, 4, 0, 20);
-        Process p2 = new Process("P2", Color.black, 2, 16, 4, 0, 20);
-        Process p3 = new Process("P3", Color.yellow, 4, 13, 4, 0, 20);
-        Process p4 = new Process("P4", Color.magenta, 6, 10, 4, 0, 20);
-        
-       Processes.add(p1);
-       Processes.add(p2);
-       Processes.add(p3);
-       Processes.add(p4);
-       for (int i=0; i<Processes.size();i++){
-            System.out.println(Processes.get(i));
-        }
+//        
+//        Process p1 = new Process("P1", Color.red, 0, 7, 4, 0, 20);
+//        Process p2 = new Process("P2", Color.black, 2, 16, 4, 0, 20);
+//        Process p3 = new Process("P3", Color.yellow, 4, 13, 4, 0, 20);
+//        Process p4 = new Process("P4", Color.magenta, 6, 10, 4, 0, 20);
+//        
+//       Processes.add(p1);
+//       Processes.add(p2);
+//       Processes.add(p3);
+//       Processes.add(p4);
+//       for (int i=0; i<Processes.size();i++){
+//            System.out.println(Processes.get(i));
+//        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
