@@ -64,6 +64,7 @@ public class SRTF2 {
         // Last Process May be not processed yet
         if(currProcessOnCPU.BurstRemaining!=0)
         {
+            startTime = currTime;
             System.out.print(currProcessOnCPU.Name+" From time: " + currTime + " to: ");
             currTime += currProcessOnCPU.BurstRemaining;
             currProcessOnCPU.createduration(startTime,currTime);
