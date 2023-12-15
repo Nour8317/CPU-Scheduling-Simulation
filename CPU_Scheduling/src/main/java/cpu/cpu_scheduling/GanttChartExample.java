@@ -46,10 +46,9 @@ public class GanttChartExample extends JFrame {
         TaskSeries series = new TaskSeries("Processes");
 
         for (Process process : processes) {
-            Task mainTask = new Task(process.Name, date(0), date(20)); // Creating a dummy task
+            Task mainTask = new Task(process.Name, date(process.durations.lastElement().start), date(process.durations.lastElement().end)); // Creating a dummy task
             int subtaskId = 1;
             for (duration D : process.durations) {
-                System.out.println(process.Name + " from " + D.start + " to " + D.end);
                 Task subtask = new Task(process.Name + " Subtask " + subtaskId, date(D.start), date(D.end));
 
                 mainTask.addSubtask(subtask);
@@ -77,8 +76,6 @@ public class GanttChartExample extends JFrame {
             p.PrintProcessDetails();
             p.burstDone = 0;
         }
-        System.out.println("Average Waiting Time is: " + TotalWaitingTime / n);
-        System.out.println("Average TurnAround Time is: " + TotalTurnAroundTime / n);
         String X ="Average Waiting Time is: " + (TotalWaitingTime / n) +"\n" ;
         X+= "Average TurnAround Time is: " + TotalTurnAroundTime / n;
         JFreeChart chart = ChartFactory.createGanttChart(

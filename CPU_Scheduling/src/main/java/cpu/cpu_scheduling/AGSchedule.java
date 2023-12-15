@@ -39,8 +39,8 @@ public class AGSchedule {
         this.processes = processes;
         finishedProcesses = new ArrayList<Process>();
         processes.sort(Comparator.comparingInt(Process::GetArrivalTime));
-//        for (Process P : processes)
-//            P.SetAGFactor(AGFactorGeneration());
+        for (Process P : processes)
+           P.SetAGFactor(AGFactorGeneration());
         n = processes.size();
     }
 
@@ -98,7 +98,6 @@ public class AGSchedule {
         System.out.println("currProcess is: " + currProcessOnCPU.Name);
         TimeForProcesses.add(currTime);
 
-
         currTime+= currProcessOnCPU.burstTime - currProcessOnCPU.burstDone;
         TimeForProcesses.add(currTime);
         ProcessesOrder.add(currProcessOnCPU);
@@ -106,8 +105,6 @@ public class AGSchedule {
         PrintQuantumList();
         System.out.println("Last completion Time is " + currTime);
         PrintFinalResult();
-        for (Process P : processes)
-            System.out.println( P.Name +" " +P.printDurations());
     }
 
     private void CheckArrivedProcesses(int time) {
@@ -215,7 +212,6 @@ public class AGSchedule {
     }
 
 
-
     private Process FirstItemAtQueue() {
         Process p = waitingQueue.get(0);
         waitingQueue.remove(p);
@@ -229,6 +225,13 @@ public class AGSchedule {
             System.out.println(TimeForProcesses.get(i) + "  " + TimeForProcesses.get(i+1));
             ProcessesOrder.get(i).createduration(TimeForProcesses.get(i),TimeForProcesses.get(i+1));
             finishedProcesses.add(ProcessesOrder.get(i));
+        }
+
+        for (Process P : processes)
+        {
+
+            duration d = P.durations.lastElement();
+            P.EndTheProcess(d.end);
         }
     }
 
