@@ -1,11 +1,6 @@
-cpu\cpu_scheduling\GUI$1.class
 cpu\cpu_scheduling\AGSchedule.class
-cpu\cpu_scheduling\GUI$2.class
-cpu\cpu_scheduling\GUI$5.class
-cpu\cpu_scheduling\GUI$6.class
-cpu\cpu_scheduling\Process_Simulation$1.class
-cpu\cpu_scheduling\GUI$4.class
-cpu\cpu_scheduling\GUI$3.class
 cpu\cpu_scheduling\Process.class
+cpu\cpu_scheduling\PriorityScheduling2.class
 cpu\cpu_scheduling\CPU_Scheduling.class
-cpu\cpu_scheduling\Process_Simulation.class
+cpu\cpu_scheduling\GanttChartExample.class
+cpu\cpu_scheduling\SRTF2.class

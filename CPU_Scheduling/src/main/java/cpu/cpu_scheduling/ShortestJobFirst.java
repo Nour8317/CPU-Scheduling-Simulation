@@ -7,8 +7,9 @@ import java.util.PriorityQueue;
 
 public class ShortestJobFirst {
 
-    private ArrayList<Process>Processes;
     private int contextSwitching;
+    private ArrayList<Process>Processes;
+    public ArrayList<Process>finishedProcesses;
     private int n ;
     private int Index =0 ;
     private int currTime;
@@ -17,14 +18,15 @@ public class ShortestJobFirst {
     private int ProcessOrder = 1;
     // Priority queue based on the process's Burst, Lowest BurstTime is on the top
     private PriorityQueue<Process> waitingQueue ;
-    public ShortestJobFirst(ArrayList<Process>Processes , int contextSwitching)
+    public ShortestJobFirst(ArrayList<Process>Processes )
     {
         this.Processes = Processes;
-        this.contextSwitching = contextSwitching;
+//        this.contextSwitching = contextSwitching;
         // sort the processes according to their ArrivalTime
         n = Processes.size();
         this.waitingQueue = new PriorityQueue<>(Comparator.comparingInt(process -> process.burstTime));
         Processes.sort(Comparator.comparingInt(Process::GetArrivalTime));
+        finishedProcesses = new ArrayList<Process>();
 
     }
 
@@ -62,6 +64,7 @@ public class ShortestJobFirst {
         {
             TotalTurnAroundTime+= p.turnAroundTime;
             TotalWaitingTime+= p.waitingTime;
+            finishedProcesses.add(p);
             p.PrintProcessDetails();
             p.burstDone = 0;
         }

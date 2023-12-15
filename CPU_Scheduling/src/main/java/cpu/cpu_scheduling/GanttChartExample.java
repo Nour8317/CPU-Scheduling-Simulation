@@ -103,21 +103,13 @@ public class GanttChartExample extends JFrame {
         return new Date(1000L * 60 * 60 * hours);
     }
 
-//    public static void main(String[] args) {
-//        List<Process> processes = new ArrayList<>();
-//
-//        // Add your processes here or get them from CPU_Scheduling class
-//        processes.add(new Process("P1", "Red", 0, 7, 4, 4, 20));
-//        processes.add(new Process("P2", "Red", 2, 4, 4, 4, 17));
-//        processes.add(new Process("P3", "Red", 4, 1, 4, 4, 16));
-//        processes.add(new Process("P4", "Red", 5, 4, 4, 4, 43));
-//
-//        SwingUtilities.invokeLater(() -> {
-//            GanttChartExample example = new GanttChartExample("Gantt Chart Example", processes);
-//            example.setSize(800, 600);
-//            example.setLocationRelativeTo(null);
-//            example.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-//            example.setVisible(true);
-//        });
-//    }
+    public void simulate() {
+        SwingUtilities.invokeLater(() -> {
+            GanttChartExample example = new GanttChartExample("Gantt Chart Example", processes);
+            example.setSize(800, 600);
+            example.setLocationRelativeTo(null);
+            example.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            example.setVisible(true);
+       });
+    }
 }

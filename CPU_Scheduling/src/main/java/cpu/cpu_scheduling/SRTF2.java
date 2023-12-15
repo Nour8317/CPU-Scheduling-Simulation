@@ -10,6 +10,7 @@ import static java.lang.Thread.sleep;
 public class SRTF2 {
     private ArrayList<Process> Processes;
     private PriorityQueue<Process> waitingQueue = new PriorityQueue<>(Comparator.comparingInt(process -> process.BurstRemaining));
+    public ArrayList<Process> finishedProcesses;
     private int currTime;
     private int Index =0 ;
     private int n;
@@ -20,6 +21,7 @@ public class SRTF2 {
         this.Processes = P;
         n = Processes.size();
         Processes.sort(Comparator.comparingInt(Process::GetArrivalTime));
+        finishedProcesses = new ArrayList<Process>();
     }
 
     public void  Start() throws InterruptedException {
@@ -101,6 +103,7 @@ public class SRTF2 {
             TotalTurnAroundTime+= p.turnAroundTime;
             TotalWaitingTime+= p.waitingTime;
             p.PrintProcessDetails();
+            finishedProcesses.add(p);
         }
         System.out.println("Average Waiting Time is: " + TotalWaitingTime / n);
         System.out.println("Average TurnAround Time is: " + TotalTurnAroundTime / n);

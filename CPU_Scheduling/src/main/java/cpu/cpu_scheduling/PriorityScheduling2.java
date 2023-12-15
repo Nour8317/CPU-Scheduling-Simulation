@@ -9,6 +9,7 @@ import static java.lang.Thread.sleep;
 public class PriorityScheduling2 {
     private ArrayList<Process> Processes;
     private PriorityQueue<Process> waitingQueue ;
+    public ArrayList<Process> finishedProcesses;
     private int currTime;
     private int Index =0 ;
     private int ProcessOrder=1;
@@ -21,6 +22,7 @@ public class PriorityScheduling2 {
         n = Processes.size();
         this.waitingQueue = new PriorityQueue<>(Comparator.comparingInt(process -> process.Priority));
         Processes.sort(Comparator.comparingInt(Process::GetArrivalTime));
+        this.finishedProcesses = new ArrayList<Process>();
     }
 
     public void  Start() throws InterruptedException {
@@ -47,6 +49,7 @@ public class PriorityScheduling2 {
         P.createduration(startTime,currTime);
         startTime=currTime;
         CheckArrivedProcesses(currTime);
+        this.finishedProcesses.add(P);
     }
     private void CheckArrivedProcesses(int time) {
         if (Index >= n)
@@ -72,10 +75,11 @@ public class PriorityScheduling2 {
             TotalTurnAroundTime+= p.turnAroundTime;
             TotalWaitingTime+= p.waitingTime;
             p.PrintProcessDetails();
+
             p.burstDone = 0;
         }
         System.out.println("Average Waiting Time is: " + TotalWaitingTime / n);
-        System.out.println("Average TurnAround Time is: " + TotalTurnAroundTime / n);
+        System.out.println("Average TurnAround Time is: " + TotalTurnAroundTime / n);       
     }
 
     private void StarvationSolver(int currTime){

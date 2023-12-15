@@ -1,5 +1,6 @@
 package cpu.cpu_scheduling;
 
+import java.awt.Color;
 import java.security.KeyPair;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -12,6 +13,7 @@ import static java.lang.Thread.sleep;
 public class AGSchedule {
     private List<Process> processes;
     private List<Process> waitingQueue = new ArrayList<>();
+    public ArrayList<Process> finishedProcesses;
     private int currTime;
     private int index;
     private int n;
@@ -35,6 +37,7 @@ public class AGSchedule {
         ProcessesOrder = new ArrayList<>();
         FinalResult= new ArrayList<>();
         this.processes = processes;
+        finishedProcesses = new ArrayList<Process>();
         processes.sort(Comparator.comparingInt(Process::GetArrivalTime));
 //        for (Process P : processes)
 //            P.SetAGFactor(AGFactorGeneration());
@@ -162,6 +165,7 @@ public class AGSchedule {
             currTime += P.burstTime - P.burstDone;
             P.Quantum = 0;
             P.burstDone = P.burstTime;
+            
             return true;
         }
 
@@ -197,13 +201,14 @@ public class AGSchedule {
     }
 
     private Process FindMinAGFactor(Process CurrentProcessOnCPU) {
-        Process min = new Process("Dymmu", "Dummy", 0, 0, 0, 0, 0);
+        Process min = new Process("Dymmu", Color.red, 0, 0, 0, 0, 0);
         min.AGFactor = 9999999;
         for (Process P : waitingQueue) {
             if (CurrentProcessOnCPU != null && CurrentProcessOnCPU.equals(P))
                 continue;
             if (min.AGFactor > P.AGFactor)
                 min = P;
+            
         }
 //        System.out.println("the min is: " + min.Name);
         return min;
@@ -223,6 +228,7 @@ public class AGSchedule {
             System.out.print(ProcessesOrder.get(i).Name + " -->");
             System.out.println(TimeForProcesses.get(i) + "  " + TimeForProcesses.get(i+1));
             ProcessesOrder.get(i).createduration(TimeForProcesses.get(i),TimeForProcesses.get(i+1));
+            finishedProcesses.add(ProcessesOrder.get(i));
         }
     }
 

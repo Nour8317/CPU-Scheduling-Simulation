@@ -4,6 +4,7 @@
 
 package cpu.cpu_scheduling;
 
+import java.awt.Color;
 import javax.swing.*;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class CPU_Scheduling {
     private static int ContextSwitching;
 
     public static void main(String[] args) throws InterruptedException {
-//        Scanner scanner = new Scanner(System.in);
+
        ArrayList <Process> Processes = new ArrayList<>();
         // GUI.startGUI();
 //        System.out.println("Enter the number of Processes");
@@ -50,17 +51,17 @@ public class CPU_Scheduling {
 //        Processes.add(new Process("P4","Red" ,5 , 4 , 4,Quantum,43));
 //
 ////         SRTF Exapmle-2 From the slides
-        Processes.add(new Process("P1","Red" ,0 , 8 , 4,Quantum,20));
-        Processes.add(new Process("P2","Red" ,1 , 4 , 4,Quantum,17));
-        Processes.add(new Process("P3","Red" ,2 , 9 , 4,Quantum,16));
-        Processes.add(new Process("P4","Red" ,3 , 5 , 4,Quantum,43));
+//        Processes.add(new Process("P1","Red" ,0 , 7 , 4,Quantum,20));
+//        Processes.add(new Process("P2","Red" ,2 , 16 , 4,Quantum,17));
+//        Processes.add(new Process("P3","Red" ,4 , 13 , 4,Quantum,16));
+//        Processes.add(new Process("P4","Red" ,6 , 10 , 4,Quantum,43));
 //
-////      Priority Scheduling Example frpm the slides
-//        Processes.add(new Process("P1","Red" ,0 , 10 , 3,Quantum,20));
-//        Processes.add(new Process("P2","Red" ,0 , 1 , 1,Quantum,17));
-//        Processes.add(new Process("P3","Red" ,0 , 2 , 4,Quantum,16));
-//        Processes.add(new Process("P4","Red" ,0 , 1 , 5,Quantum,43));
-//        Processes.add(new Process("P5","Red" ,0 , 5 , 2,Quantum,43));
+//      Priority Scheduling Example frpm the slides
+        Processes.add(new Process("P1",Color.red ,0 , 10 , 3,Quantum,20));
+        Processes.add(new Process("P2",Color.CYAN ,0 , 1 , 1,Quantum,17));
+        Processes.add(new Process("P3",Color.PINK ,0 , 2 , 4,Quantum,16));
+        Processes.add(new Process("P4",Color.black ,0 , 1 , 5,Quantum,43));
+        Processes.add(new Process("P5",Color.MAGENTA ,0 , 5 , 2,Quantum,43));
 //        for (int i = 0; i < pNumbers; i++) {
 //            System.out.println("Enter details for Process " + (i + 1));
 //            System.out.print("Name: ");
@@ -104,6 +105,29 @@ public class CPU_Scheduling {
 
 //        ShortestJobFirst sh = new ShortestJobFirst(Processes,0);
 //        sh.SJF();
-        GanttChartExample example = new GanttChartExample("Priority Schedule", Processes);
+
+//SJF TESTING
+//        ShortestJobFirst pd = new ShortestJobFirst(Processes);
+//        pd.SJF();
+//        GanttChartExample example = new GanttChartExample("SJF", pd.finishedProcesses);
+        
+
+//Priorityscheduling TESTING
+//        PriorityScheduling2 pd = new PriorityScheduling2(Processes);
+//        pd.Start();
+//        GanttChartExample example = new GanttChartExample("Priority Schedule", pd.finishedProcesses);
+
+
+//STRF TESTING
+//        SRTF2 pd = new SRTF2(Processes);
+//        pd.Start();
+//        GanttChartExample example = new GanttChartExample("Priority Schedule", pd.finishedProcesses);
+        
+//SJF TESTING
+        ShortestJobFirst pd = new ShortestJobFirst(Processes);
+        pd.SJF();
+        GanttChartExample example = new GanttChartExample("Priority Schedule", pd.finishedProcesses);
+        
+//        example.simulate();
     }
 }
